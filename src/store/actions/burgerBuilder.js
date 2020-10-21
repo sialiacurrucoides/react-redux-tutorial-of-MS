@@ -1,6 +1,4 @@
 import * as actionTypes from './actionTypes';
-import {FIREBASE_INGREDIENTS} from '../../env';
-import axios from '../../axios-orders';
 
 export const addIngredient = (name) => {
     return {
@@ -30,12 +28,7 @@ export const fetchIngredientsFailed = () => {
 };
 
 export const initIngredients = () => {
-    return dispatch => {
-        axios.get(FIREBASE_INGREDIENTS).then(
-            response => {
-                dispatch(setIngredients(response.data));
-            }).catch( error => {
-                dispatch(fetchIngredientsFailed());
-            });
+    return {
+        type: actionTypes.INIT_INGREDIENTS
     };
 };
