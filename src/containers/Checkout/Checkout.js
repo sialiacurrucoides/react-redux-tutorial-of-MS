@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import {Route, Redirect} from 'react-router-dom';
 import ContactData from '../Checkout/ContactData/ContactData';
@@ -6,35 +6,33 @@ import { connect } from 'react-redux';
 import Aux from '../../hoc/Aux/Aux';
 
 
-class Checkout extends Component {
+const Checkout = (props) => {
 
 
-    checkoutCancelledHandler = () => {
-        this.props.history.goBack();
+    const checkoutCancelledHandler = () => {
+        props.history.goBack();
     }
-    checkoutContinuedHandler = () => {
-        this.props.history.replace('/checkout/contact-data')
+    const checkoutContinuedHandler = () => {
+        props.history.replace('/checkout/contact-data')
     }
 
-    render(){
-        let summary = (<Redirect to='/'/>);
-        
-        if (this.props.ing){
-            const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
-            summary = (<Aux>             
-                    <CheckoutSummary 
-                    ingredients={this.props.ing} 
-                    checkoutCanceled={this.checkoutCancelledHandler}
-                    checkoutContinued={this.checkoutContinuedHandler}
-                    />
-                    <Route path={this.props.match.path + '/contact-data'} 
-                        component={ContactData}
-                    />
-                    {purchasedRedirect}
-                </Aux>);
-        }
-        return summary;
+    let summary = (<Redirect to='/'/>);
+    
+    if (props.ing){
+        const purchasedRedirect = props.purchased ? <Redirect to="/" /> : null;
+        summary = (<Aux>             
+                <CheckoutSummary 
+                ingredients={props.ing} 
+                checkoutCanceled={checkoutCancelledHandler}
+                checkoutContinued={checkoutContinuedHandler}
+                />
+                <Route path={props.match.path + '/contact-data'} 
+                    component={ContactData}
+                />
+                {purchasedRedirect}
+            </Aux>);
     }
+    return summary;
 }
 
 const mapStateToProps = state => {
